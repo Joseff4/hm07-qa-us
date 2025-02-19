@@ -2,6 +2,8 @@
 const config = require('../config');
 
 test('Check response status code is 200 for successful DELETE request', async () => {
+    let actualStatus;
+
     try {
         const response = await fetch(`${config.API_URL}/kits/7`, {
             method: 'DELETE',
@@ -10,12 +12,17 @@ test('Check response status code is 200 for successful DELETE request', async ()
             }
         });
 
-        expect(response.status).toBe(200);
+        actualStatus = response.status;
     } catch (error) {
         console.error(error);
     }
+
+    expect(actualStatus).toBe(200);
 });
+
 test('Check DELETE response body contains expected data', async () => {
+    let responseBody;
+
     try {
         const response = await fetch(`${config.API_URL}/kits/7`, {
             method: 'DELETE',
@@ -23,10 +30,12 @@ test('Check DELETE response body contains expected data', async () => {
                 'Accept': 'application/json'
             }
         });
-        
-        const responseBody = await response.json();
-        expect(responseBody.ok).toBe(true);
+
+        responseBody = await response.json();
     } catch (error) {
         console.error(error);
     }
+
+    expect(responseBody.ok).toBe(true);
 });
+
